@@ -150,7 +150,7 @@
             min-height: 300px;
             position: relative;
             background-color: #f4f4f4;
-            overflow: auto;
+            overflow: hidden;
         }
         #layoutArea .component {
             position: absolute;
@@ -351,27 +351,62 @@
             }
         });
 
-        // Drag & Drop Lógica
+        // Drag & Drop Lógica Mejorada
         let dragged = null;
-        document.querySelectorAll('.component').forEach(el => {
+        const area = document.getElementById('layoutArea');
+
+        // Preparar dragstart para todos los elementos, palette y clones
+        function enableDrag(el) {
             el.addEventListener('dragstart', e => {
                 dragged = e.target;
+                // Permitir estilos durante el arrastre
+                setTimeout(() => e.target.classList.add('dragging'), 0);
             });
+            el.addEventListener('dragend', e => {
+                e.target.classList.remove('dragging');
+            });
+        }
+
+        // Inicializar palette
+        document.querySelectorAll('.components .component').forEach(el => {
+            enableDrag(el);
         });
-        const area = document.getElementById('layoutArea');
+
+        // Permitir drop sobre layoutArea
         area.addEventListener('dragover', e => e.preventDefault());
+
         area.addEventListener('drop', e => {
             e.preventDefault();
-            const clone = dragged.cloneNode(true);
-            clone.classList.add('dropped');
             const rect = area.getBoundingClientRect();
-            const x = e.clientX - rect.left - clone.width/2;
-            const y = e.clientY - rect.top - clone.height/2;
-            clone.style.left = x + 'px';
-            clone.style.top = y + 'px';
-            clone.setAttribute('draggable', 'true');
-            clone.addEventListener('dragstart', ev => { dragged = ev.target; });
-            area.appendChild(clone);
+            const x = e.clientX - rect.left - (dragged.width / 2);
+            const y = e.clientY - rect.top - (dragged.height / 2);
+
+            if (dragged.classList.contains('dropped')) {
+                // Mover elemento existente
+                dragged.style.left = `${x}px`;
+                dragged.style.top = `${y}px`;
+            } else {
+                // Clonar desde palette
+                const clone = dragged.cloneNode(true);
+                clone.classList.add('dropped');
+                clone.style.left = `${x}px`;
+                clone.style.top = `${y}px`;
+                clone.setAttribute('draggable', 'true');
+                enableDrag(clone);
+                area.appendChild(clone);
+            }
+            // Limpiar referencia
+            dragged = null;
+        });
+
+        // Eliminar clones si se sueltan fuera del área
+        document.addEventListener('drop', e => {
+            if (dragged && dragged.classList.contains('dropped')) {
+                if (!area.contains(e.target)) {
+                    dragged.remove();
+                }
+            }
+            dragged = null;
         });
 
         // Validación formulario
