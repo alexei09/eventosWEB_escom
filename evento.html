@@ -27,15 +27,9 @@
       border-radius: 1rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     }
-    .drag-area {
-      border: 2px dashed #6c757d;
-      border-radius: 0.5rem;
-      height: 150px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #6c757d;
-      background: #fff url('placeholder.png') no-repeat center/contain;
+    .form-label.required::after {
+      content: " *";
+      color: #d00;
     }
   </style>
 </head>
@@ -44,12 +38,13 @@
   <div class="d-flex justify-content-center align-items-center vh-100">
     <div class="card p-4" style="max-width: 600px; width:100%;">
       <h3 class="text-center mb-4">Crear Nuevo Evento</h3>
-      <form id="formEvento">
+      <form id="formEvento" novalidate>
 
-        <!-- Tipo de Evento -->
+        <!-- 1. Tipo de Evento -->
         <div class="mb-3">
-          <label for="tipoEvento" class="form-label">Tipo de Evento</label>
-          <select id="tipoEvento" class="form-select">
+          <label for="tipoEvento" class="form-label required">Tipo de Evento</label>
+          <select id="tipoEvento" class="form-select" required>
+            <option value="" disabled selected>Selecciona...</option>
             <option>Graduación</option>
             <option>Boda</option>
             <option>XV Años</option>
@@ -64,58 +59,137 @@
           </select>
         </div>
 
-        <!-- Fecha -->
+        <!-- 2. Fecha -->
         <div class="mb-3">
-          <label for="fechaEvento" class="form-label">Fecha del Evento</label>
+          <label for="fechaEvento" class="form-label required">Fecha del Evento</label>
           <input
             type="text"
             id="fechaEvento"
             class="form-control"
             placeholder="Selecciona una fecha"
+            required
           >
         </div>
 
-        <!-- Hora -->
+        <!-- 3. Hora -->
         <div class="mb-3">
-          <label for="horaEvento" class="form-label">Hora</label>
+          <label for="horaEvento" class="form-label required">Hora</label>
           <input
             type="time"
             id="horaEvento"
             class="form-control"
+            required
           >
         </div>
 
-        <!-- Menú Dinámico -->
+        <!-- 4. Número de invitados -->
+        <div class="mb-3">
+          <label for="invitados" class="form-label required">Número de Invitados</label>
+          <select id="invitados" class="form-select" required>
+            <option value="" disabled selected>Selecciona...</option>
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+            <option>100</option>
+            <option>200</option>
+            <option>Otro</option>
+          </select>
+        </div>
+
+        <!-- 5. Dirección / Lugar -->
+        <div class="mb-3">
+          <label for="lugarEvento" class="form-label required">Dirección o Lugar</label>
+          <input
+            type="text"
+            id="lugarEvento"
+            class="form-control"
+            placeholder="Ej. Salón Los Álamos, CDMX"
+            required
+          >
+        </div>
+
+        <!-- 6. Contacto -->
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="emailContacto" class="form-label required">Email de Contacto</label>
+            <input
+              type="email"
+              id="emailContacto"
+              class="form-control"
+              placeholder="tucorreo@ejemplo.com"
+              required
+            >
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="telContacto" class="form-label">Teléfono de Contacto</label>
+            <input
+              type="tel"
+              id="telContacto"
+              class="form-control"
+              placeholder="(55) 1234-5678"
+            >
+          </div>
+        </div>
+
+        <!-- 7. Presupuesto aproximado -->
+        <div class="mb-3">
+          <label for="presupuesto" class="form-label">Presupuesto Aproximado (MXN)</label>
+          <input
+            type="number"
+            id="presupuesto"
+            class="form-control"
+            placeholder="Ej. 15000"
+            min="0"
+          >
+        </div>
+
+        <!-- 8. Descripción / Notas -->
+        <div class="mb-3">
+          <label for="descripcion" class="form-label">Descripción o Notas</label>
+          <textarea
+            id="descripcion"
+            class="form-control"
+            rows="3"
+            placeholder="Detalles adicionales del evento..."
+          ></textarea>
+        </div>
+
+        <!-- 9. Selección de color / tema -->
+        <div class="mb-3">
+          <label for="colorTema" class="form-label">Color o Tema</label>
+          <input
+            type="color"
+            id="colorTema"
+            class="form-control form-control-color"
+            value="#0d6efd"
+            title="Elige un color"
+          >
+        </div>
+
+        <!-- 10. Menú Dinámico -->
         <div class="mb-3">
           <label for="menu" class="form-label">Menú Sugerido</label>
-          <select id="menu" class="form-select">
-            <option>Selecciona una hora primero</option>
+          <select id="menu" class="form-select" disabled>
+            <option>Selecciona hora primero</option>
           </select>
         </div>
 
-        <!-- Agregar Invitado -->
-        <div class="mb-3 text-center">
-          <button
-            type="button"
-            id="agregarInvitado"
-            class="btn btn-outline-primary"
+        <!-- 11. Subir imagen del evento -->
+        <div class="mb-4">
+          <label for="bannerEvento" class="form-label">Banner del Evento</label>
+          <input
+            class="form-control"
+            type="file"
+            id="bannerEvento"
+            accept="image/*"
           >
-            <i class="bi bi-person-plus"></i> Agregar Invitado
+        </div>
+
+        <!-- Botón Enviar -->
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary px-5">
+            <i class="bi bi-check-circle"></i> Guardar Evento
           </button>
-        </div>
-
-        <!-- Drag & Drop Placeholder -->
-        <div class="mb-3">
-          <label class="form-label">Arrastra los elementos</label>
-          <div class="drag-area"></div>
-        </div>
-
-        <!-- Eventos Guardados -->
-        <div class="mb-3">
-          <label for="eventosGuardados" class="form-label">Eventos Guardados</label>
-          <select id="eventosGuardados" class="form-select">
-            <option>– Ninguno –</option>
-          </select>
         </div>
 
       </form>
@@ -131,7 +205,7 @@
     src="https://cdn.jsdelivr.net/npm/flatpickr"
   ></script>
   <script>
-    // Fechas ya reservadas (YYYY-MM-DD)
+    // Ejemplo de fechas ocupadas (YYYY-MM-DD)
     const bookedDates = [
       "2025-06-20",
       "2025-06-25",
@@ -156,6 +230,7 @@
       .addEventListener("change", function() {
         const hr = parseInt(this.value.split(":")[0]);
         const menu = document.getElementById("menu");
+        menu.disabled = false;
         menu.innerHTML = "";
         if (hr >= 6 && hr < 11) {
           menu.innerHTML = `
@@ -176,8 +251,17 @@
           menu.innerHTML = `<option>Menú no disponible</option>`;
         }
       });
-  </script>
 
+    // Validación básica al enviar
+    document.getElementById("formEvento")
+      .addEventListener("submit", function(e) {
+        if (!this.checkValidity()) {
+          e.preventDefault();
+          e.stopPropagation();
+          alert("Por favor, completa todos los campos requeridos.");
+        }
+      });
+  </script>
 </body>
 </html>
 
