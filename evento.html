@@ -223,13 +223,15 @@
 
     <!-- COLUMNA SECUNDARIA: aquí podrías poner un sidebar o info extra -->
     <aside class="sidebar">
-      <!-- De momento lo dejamos vacío o con un mensaje -->
-      <div class="contact-info">
-        <h3>Contacto Rápido</h3>
-        <p>📞 (55) 1234-5678</p>
-        <p>✉️ info@saloneventos.com</p>
-        <a href="#" class="contact-button">Enviar Mensaje</a>
+       <h3 class="text-center mb-3">Componentes</h3>
+      <div class="components">
+        <img src="mesa.png" id="mesa" class="component" draggable="true" title="Mesa">
+        <img src="pista.png" id="pista" class="component" draggable="true" title="Pista de baile">
+        <img src="musicos.png" id="musicos" class="component" draggable="true" title="Músicos">
+        <img src="comida.png" id="comida" class="component" draggable="true" title="Comida">
       </div>
+      <h3 class="text-center mb-3">Distribución</h3>
+      <div id="layoutArea"></div>
     </aside>
   </main>
 
@@ -253,6 +255,36 @@
           this.clear();
         }
       }
+    });
+     // DRAG & DROP
+    let draggedId = null;
+
+    document.querySelectorAll('.component').forEach(el => {
+      el.addEventListener('dragstart', e => {
+        draggedId = e.target.id;
+      });
+    });
+
+    const layout = document.getElementById('layoutArea');
+    layout.addEventListener('dragover', e => e.preventDefault());
+    layout.addEventListener('drop', e => {
+      e.preventDefault();
+      const orig = document.getElementById(draggedId);
+      const clone = orig.cloneNode(true);
+      clone.classList.add('dropped');
+      // posición relativa al contenedor
+      const rect = layout.getBoundingClientRect();
+      const x = e.clientX - rect.left - (clone.width/2);
+      const y = e.clientY - rect.top - (clone.height/2);
+      clone.style.left = x + 'px';
+      clone.style.top = y + 'px';
+      // permitir reubicación
+      clone.addEventListener('dragstart', ev => {
+        draggedId = null;
+        ev.dataTransfer.setDragImage(ev.target, 0, 0);
+        moving = ev.target;
+      });
+      layout.appendChild(clone);
     });
     document.getElementById("horaEvento")
       .addEventListener("change", function() {
