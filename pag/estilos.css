@@ -1,0 +1,642 @@
+/* Variables de color */
+:root {
+    --primary-color: #e91e63;  /* Rosa fiesta */
+    --secondary-color: #9c27b0; /* Morado */
+    --accent-color: #ff9800;    /* Naranja */
+    --text-color: #333;
+    --light-bg: #f4f4f4;
+    --dark-bg: #222;
+    --white: #fff;
+}
+
+/* Reset y estilos base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    background-color: var(--light-bg);
+    color: var(--text-color);
+    animation: fadeIn 1s ease-in;
+}
+
+/* Header */
+.header {
+    background-image: url('C:/Users/Fernando/Desktop/Pagina/img/salon.jpg');
+    background-size: cover;
+    background-position: center;
+    color: var(--white);
+    padding: 20px 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    min-height: 300px;
+}
+
+.header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 0;
+}
+
+.logo, .nav {
+    position: relative;
+    z-index: 1;
+}
+
+.logo {
+    font-size: 2.8rem;
+    margin-bottom: 1.5rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.nav ul {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    list-style: none;
+}
+
+.nav a {
+    color: var(--white);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    background-color: rgba(233, 30, 99, 0.7);
+    transform: translateY(0);
+}
+
+.nav a:hover {
+    transform: translateY(-5px);
+    background-color: var(--primary-color);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Hero Section */
+.hero {
+    background-color: var(--white);
+    padding: 3rem 10%;
+    text-align: left;
+    margin-bottom: 2rem;
+}
+
+.hero-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    align-items: center;
+}
+
+.hero-text {
+    padding: 2rem;
+}
+
+.hero-text h2 {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    animation: fadeInUp 1s ease-in-out;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+.hero-text p {
+    color: var(--text-color);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    animation: fadeInUp 1s ease-in-out 0.3s;
+    animation-fill-mode: forwards;
+    opacity: 0;
+}
+
+.hero-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.5s ease;
+    animation: fadeInUp 1.2s ease-in-out forwards;
+}
+
+.hero-image:hover {
+    transform: scale(1.05) rotate(2deg);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+/* Eliminado el estilo del botón de galería */
+
+.read-more-button {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.read-more-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Main Container */
+.main-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 2rem;
+    padding: 2rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* Servicios Destacados */
+.alternative-therapies {
+    background-color: var(--white);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.alternative-therapies h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.alternative-therapies h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+.therapy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.therapy-item {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--light-bg);
+    border-radius: 10px;
+    transition: all 0.4s ease;
+    transform: perspective(500px) rotateX(0deg);
+}
+
+.therapy-item:hover {
+    transform: perspective(500px) rotateX(10deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    background-color: var(--white);
+}
+
+.therapy-item img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    transition: all 0.4s ease;
+    animation: flotar 3s ease-in-out infinite;
+}
+
+.therapy-item:hover img {
+    border-radius: 10px;
+    transform: rotate(5deg) scale(1.05);
+}
+
+.therapy-item h3 {
+    font-size: 1.3rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.8rem;
+}
+
+.therapy-item p {
+    color: var(--text-color);
+    margin-bottom: 1rem;
+}
+
+.more-info-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 600;
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+    transform: skewX(-5deg);
+}
+
+.more-info-link:hover {
+    transform: skewX(5deg) scale(1.05);
+    text-decoration: underline;
+}
+
+/* Menú Destacado */
+.featured-therapies {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+
+.featured-therapies h2 {
+    grid-column: 1 / -1;
+    font-size: 2rem;
+    color: var(--primary-color);
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.therapy-box {
+    background-color: var(--white);
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.therapy-box:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.therapy-box img {
+    max-width: 80%;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 1rem;
+    transition: all 0.4s ease;
+    animation: flotar 3s ease-in-out infinite;
+}
+
+.therapy-box:hover img {
+    transform: scale(1.1) rotate(5deg);
+    border-radius: 10px;
+}
+
+.therapy-box h3 {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+/* Sidebar */
+.sidebar {
+    display: grid;
+    grid-template-rows: auto auto auto; /* Eliminada una fila por la sección de noticias */
+    gap: 2rem;
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+}
+
+.search-box {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+}
+
+.search-box input[type="text"] {
+    padding:12px;
+    border: 1px solid #ddd;
+    border-radius: 30px 0 0 30px;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-box button[type="submit"] {
+    padding: 12px 20px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 0 30px 30px 0;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.search-box button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+}
+
+.therapy-categories h3, .contact-info h3 {
+    font-size: 1.3rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--light-bg);
+}
+
+.therapy-categories ul {
+    list-style: none;
+}
+
+.therapy-categories ul li a {
+    color: var(--text-color);
+    text-decoration: none;
+    display: block;
+    padding: 0.8rem 0;
+    border-bottom: 1px solid #eee;
+    transition: all 0.3s ease;
+}
+
+.therapy-categories ul li a:hover {
+    color: var(--primary-color);
+    padding-left: 10px;
+    background-color: rgba(233, 30, 99, 0.1);
+}
+
+
+.contact-info {
+    margin-top: 1rem;
+}
+
+.contact-info p {
+    color: var(--text-color);
+    margin-bottom: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-info p::before {
+    content: "📞";
+    font-size: 1.2rem;
+}
+
+.contact-info p:nth-child(2)::before {
+    content: "✉️";
+}
+
+.contact-button {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 30px;
+    margin-top: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.contact-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Bottom Section */
+.bottom-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 3rem;
+    padding: 4rem 5%;
+    background-size: cover;
+    background-position: center;
+    color: var(--white);
+    position: relative;
+    margin-top: 3rem;
+}
+
+.bottom-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 0;
+}
+
+.subscription, .social-media {
+    position: relative;
+    z-index: 1;
+}
+
+.subscription h3, .social-media h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.subscription form {
+    display: grid;
+    gap: 1rem;
+}
+
+.subscription input[type="email"] {
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    font-size: 1rem;
+    outline: none;
+    color: var(--text-color);
+}
+
+.subscription button[type="submit"] {
+    padding: 12px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.subscription button[type="submit"]:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.social-media {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.social-icons a {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    background-color: var(--white);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    transform: translateY(-5px) rotate(10deg);
+    background-color: var(--primary-color);
+}
+
+.social-icons img {
+    width: 30px;
+    height: 30px;
+    transition: none;
+    animation: none;
+}
+
+.social-icons a:hover img {
+    filter: brightness(0) invert(1);
+    transform: none;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 2rem;
+    background-color: var(--dark-bg);
+    color: var(--white);
+    font-size: 1rem;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+    animation: fadeIn 2s ease-in;
+}
+
+.footer:hover {
+    transform: translateY(-5px);
+    background-color: #111;
+}
+
+/* Animaciones */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes flotar {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .main-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .hero-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .therapy-grid, .featured-therapies {
+        grid-template-columns: 1fr;
+    }
+    
+    .nav ul {
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: center;
+    }
+    
+    .hero-buttons {
+        justify-content: center;
+    }
+    
+    .hero-text {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 2rem;
+    }
+    
+    .hero-text h2 {
+        font-size: 1.8rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .read-more-button, .contact-button {
+        width: 100%;
+    }
+}
