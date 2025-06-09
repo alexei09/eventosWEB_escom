@@ -1,15 +1,183 @@
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Crear Evento</title>
+  <!-- Bootstrap 5 CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  >
+  <!-- Flatpickr CSS -->
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  >
+  <style>
+    body {
+      background: #f0f2f5;
+      margin: 0;
+    }
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    }
+    .drag-area {
+      border: 2px dashed #6c757d;
+      border-radius: 0.5rem;
+      height: 150px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #6c757d;
+      background: #fff url('placeholder.png') no-repeat center/contain;
+    }
+  </style>
+</head>
+<body>
 
-<div class="mb-3">
-  <label>Tipo de Evento:</label>
-  <select class="form-select">
-    <option>Graduación</option>
-    <option>Boda</option>
-    <option>XV Años</option>
-  </select>
-</div>
-<div class="mb-3">
-  <label>Fecha:</label>
-  <input class="form-control" id="fechaEvento">
-</div>
+  <div class="d-flex justify-content-center align-items-center vh-100">
+    <div class="card p-4" style="max-width: 600px; width:100%;">
+      <h3 class="text-center mb-4">Crear Nuevo Evento</h3>
+      <form id="formEvento">
+
+        <!-- Tipo de Evento -->
+        <div class="mb-3">
+          <label for="tipoEvento" class="form-label">Tipo de Evento</label>
+          <select id="tipoEvento" class="form-select">
+            <option>Graduación</option>
+            <option>Boda</option>
+            <option>XV Años</option>
+            <option>Convención</option>
+            <option>Concierto</option>
+            <option>Bautizo</option>
+            <option>Congreso</option>
+            <option>Seminario</option>
+            <option>Festival</option>
+            <option>Reunión Familiar</option>
+            <option>Otro</option>
+          </select>
+        </div>
+
+        <!-- Fecha -->
+        <div class="mb-3">
+          <label for="fechaEvento" class="form-label">Fecha del Evento</label>
+          <input
+            type="text"
+            id="fechaEvento"
+            class="form-control"
+            placeholder="Selecciona una fecha"
+          >
+        </div>
+
+        <!-- Hora -->
+        <div class="mb-3">
+          <label for="horaEvento" class="form-label">Hora</label>
+          <input
+            type="time"
+            id="horaEvento"
+            class="form-control"
+          >
+        </div>
+
+        <!-- Menú Dinámico -->
+        <div class="mb-3">
+          <label for="menu" class="form-label">Menú Sugerido</label>
+          <select id="menu" class="form-select">
+            <option>Selecciona una hora primero</option>
+          </select>
+        </div>
+
+        <!-- Agregar Invitado -->
+        <div class="mb-3 text-center">
+          <button
+            type="button"
+            id="agregarInvitado"
+            class="btn btn-outline-primary"
+          >
+            <i class="bi bi-person-plus"></i> Agregar Invitado
+          </button>
+        </div>
+
+        <!-- Drag & Drop Placeholder -->
+        <div class="mb-3">
+          <label class="form-label">Arrastra los elementos</label>
+          <div class="drag-area"></div>
+        </div>
+
+        <!-- Eventos Guardados -->
+        <div class="mb-3">
+          <label for="eventosGuardados" class="form-label">Eventos Guardados</label>
+          <select id="eventosGuardados" class="form-select">
+            <option>– Ninguno –</option>
+          </select>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+  ></script>
+  <!-- Flatpickr JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/flatpickr"
+  ></script>
+  <script>
+    // Fechas ya reservadas (YYYY-MM-DD)
+    const bookedDates = [
+      "2025-06-20",
+      "2025-06-25",
+      "2025-07-02"
+    ];
+
+    // Inicializa Flatpickr
+    flatpickr("#fechaEvento", {
+      dateFormat: "Y-m-d",
+      minDate: new Date().fp_incr(3), // Hoy + 3 días
+      disable: bookedDates,
+      onChange: function(selectedDates, dateStr) {
+        if (bookedDates.includes(dateStr)) {
+          alert("❌ La fecha " + dateStr + " ya está ocupada. Elige otra.");
+          this.clear();
+        }
+      }
+    });
+
+    // Actualiza menú según hora
+    document.getElementById("horaEvento")
+      .addEventListener("change", function() {
+        const hr = parseInt(this.value.split(":")[0]);
+        const menu = document.getElementById("menu");
+        menu.innerHTML = "";
+        if (hr >= 6 && hr < 11) {
+          menu.innerHTML = `
+            <option>Desayuno Mexicano</option>
+            <option>Hot Cakes</option>
+            <option>Chilaquiles</option>`;
+        } else if (hr >= 11 && hr < 16) {
+          menu.innerHTML = `
+            <option>Pollo en Mole</option>
+            <option>Fajitas</option>
+            <option>Pescado Empanizado</option>`;
+        } else if (hr >= 16 && hr <= 22) {
+          menu.innerHTML = `
+            <option>Ensalada César</option>
+            <option>Carne Asada</option>
+            <option>Pizza Artesanal</option>`;
+        } else {
+          menu.innerHTML = `<option>Menú no disponible</option>`;
+        }
+      });
+  </script>
+
+</body>
+</html>
+
