@@ -1,315 +1,386 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Salón de Eventos – Crear Evento</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salón de Eventos – Crear Evento</title>
 
-  <!-- 1) CSS Externos -->
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-    rel="stylesheet"
-  >
-  <link
-    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
-    rel="stylesheet"
-  >
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-  >
+    <!-- Bootstrap 5 CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    >
+    <!-- Bootstrap Icons -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    >
+    <!-- Flatpickr CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    >
+    <!-- Tu hoja de estilos personalizada -->
+    <link rel="stylesheet" href="estilos.css">
 
-  <!-- 2) TU CSS PERSONALIZADO -->
-  <link rel="stylesheet" href="estilos.css">
-
-  <!-- 3) Pequeños ajustes extra -->
-  <style>
-    /* Ajustamos la tarjeta blanca dentro del grid */
-    .main-container .card {
-      background: var(--white);
-    }
-  </style>
+    <!-- Estilos específicos para layout y drag & drop -->
+    <style>
+        /* Layout general */
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .header, .hero, .main-container, .footer {
+            width: 100%;
+        }
+        /* Header */
+        .header {
+            background-image: url('img/salon.jpg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            color: #fff;
+            padding: 20px 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 200px;
+        }
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 0;
+        }
+        .logo, .nav {
+            position: relative;
+            z-index: 1;
+        }
+        .logo {
+            font-size: 2.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+        .nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            background-color: rgba(233, 30, 99, 0.7);
+            transition: background 0.3s, transform 0.3s;
+        }
+        .nav a:hover {
+            background: #e91e63;
+            transform: translateY(-3px);
+        }
+        /* Hero Section */
+        .hero {
+            background-color: #fff;
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .hero-text h2 {
+            font-size: 2.5rem;
+            color: #e91e63;
+            margin-bottom: 1rem;
+        }
+        .hero-text p {
+            font-size: 1.2rem;
+            color: #333;
+        }
+        /* Main Container */
+        .main-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+            padding: 2rem 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        @media(min-width: 992px) {
+            .main-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        /* Card style override */
+        .card {
+            border-radius: 1rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        .form-label.required::after {
+            content: " *";
+            color: #d00;
+        }
+        /* Componentes drag area */
+        .components {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        .component {
+            width: 60px;
+            cursor: grab;
+        }
+        #layoutArea {
+            border: 3px dashed #e91e63;
+            border-radius: 8px;
+            min-height: 300px;
+            position: relative;
+            background-color: #f4f4f4;
+            overflow: auto;
+        }
+        #layoutArea .component {
+            position: absolute;
+            cursor: move;
+        }
+        /* Footer */
+        .footer {
+            background: #222;
+            color: #fff;
+            text-align: center;
+            padding: 1.5rem 5%;
+            margin-top: 2rem;
+        }
+    </style>
 </head>
 <body>
 
-  <!-- ===== HEADER ===== -->
-  <header class="header">
-    <div class="logo">Salón de Eventos</div>
-    <nav class="nav">
-      <ul>
-        <li><a href="#">Inicio</a></li>
-        <li><a href="#">Quiénes Somos</a></li>
-        <li><a href="#">Menú</a></li>
-        <li><a href="#">Reservaciones</a></li>
-        <li><a href="#">Contacto</a></li>
-      </ul>
-    </nav>
-  </header>
+    <!-- HEADER -->
+    <header class="header">
+        <div class="logo">Salón de Eventos</div>
+        <nav class="nav">
+            <ul>
+                <li><a href="#">Inicio</a></li>
+                <li><a href="#">Quiénes Somos</a></li>
+                <li><a href="#">Menú</a></li>
+                <li><a href="#">Reservaciones</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="hero-text">
-        <h2>Crear Nuevo Evento</h2>
-        <p>Completa los datos a continuación para reservar tu salón.</p>
-      </div>
-      <div class="hero-image">
-        <!-- Podrías poner aquí una imagen ilustrativa -->
-      </div>
-    </div>
-  </section>
-
-  <!-- ===== MAIN ===== -->
-  <main class="main-container">
-    <!-- COLUMNA PRINCIPAL: el formulario -->
-    <div>
-      <div class="card p-4">
-        <form id="formEvento" novalidate>
-
-          <!-- Tipo de Evento -->
-          <div class="mb-3">
-            <label for="tipoEvento" class="form-label required">Tipo de Evento</label>
-            <select id="tipoEvento" class="form-select" required>
-              <option value="" disabled selected>Selecciona...</option>
-              <option>Graduación</option>
-              <option>Boda</option>
-              <option>XV Años</option>
-              <option>Convención</option>
-              <option>Concierto</option>
-              <option>Bautizo</option>
-              <option>Congreso</option>
-              <option>Seminario</option>
-              <option>Festival</option>
-              <option>Reunión Familiar</option>
-              <option>Otro</option>
-            </select>
-          </div>
-
-          <!-- Fecha -->
-          <div class="mb-3">
-            <label for="fechaEvento" class="form-label required">Fecha del Evento</label>
-            <input
-              type="text"
-              id="fechaEvento"
-              class="form-control"
-              placeholder="Selecciona una fecha"
-              required
-            >
-          </div>
-
-          <!-- Hora -->
-          <div class="mb-3">
-            <label for="horaEvento" class="form-label required">Hora</label>
-            <input
-              type="time"
-              id="horaEvento"
-              class="form-control"
-              required
-            >
-          </div>
-
-          <!-- Invitados -->
-          <div class="mb-3">
-            <label for="invitados" class="form-label required">Número de Invitados</label>
-            <select id="invitados" class="form-select" required>
-              <option value="" disabled selected>Selecciona...</option>
-              <option>10</option>
-              <option>20</option>
-              <option>50</option>
-              <option>100</option>
-              <option>200</option>
-              <option>Otro</option>
-            </select>
-          </div>
-
-          <!-- Lugar -->
-          <div class="mb-3">
-            <label for="lugarEvento" class="form-label required">Dirección o Lugar</label>
-            <input
-              type="text"
-              id="lugarEvento"
-              class="form-control"
-              placeholder="Ej. Salón Los Álamos, CDMX"
-              required
-            >
-          </div>
-
-          <!-- Contacto -->
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="emailContacto" class="form-label required">Email de Contacto</label>
-              <input
-                type="email"
-                id="emailContacto"
-                class="form-control"
-                placeholder="tucorreo@ejemplo.com"
-                required
-              >
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h2>Crear Nuevo Evento</h2>
+                <p>Completa los datos y diseña tu salón con los componentes drag & drop.</p>
             </div>
-            <div class="col-md-6 mb-3">
-              <label for="telContacto" class="form-label">Teléfono de Contacto</label>
-              <input
-                type="tel"
-                id="telContacto"
-                class="form-control"
-                placeholder="(55) 1234-5678"
-              >
+        </div>
+    </section>
+
+    <!-- MAIN -->
+    <main class="main-container">
+
+        <!-- FORMULARIO -->
+        <div>
+            <div class="card p-4 mb-4">
+                <form id="formEvento" novalidate>
+                    <!-- Campo: Tipo de Evento -->
+                    <div class="mb-3">
+                        <label for="tipoEvento" class="form-label required">Tipo de Evento</label>
+                        <select id="tipoEvento" class="form-select" required>
+                            <option value="" disabled selected>Selecciona...</option>
+                            <option>Graduación</option>
+                            <option>Boda</option>
+                            <option>XV Años</option>
+                            <option>Convención</option>
+                            <option>Concierto</option>
+                            <option>Bautizo</option>
+                            <option>Congreso</option>
+                            <option>Seminario</option>
+                            <option>Festival</option>
+                            <option>Reunión Familiar</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                    <!-- Campo: Fecha del Evento -->
+                    <div class="mb-3">
+                        <label for="fechaEvento" class="form-label required">Fecha del Evento</label>
+                        <input type="text" id="fechaEvento" class="form-control" placeholder="Selecciona una fecha" required>
+                    </div>
+                    <!-- Campo: Hora -->
+                    <div class="mb-3">
+                        <label for="horaEvento" class="form-label required">Hora</label>
+                        <input type="time" id="horaEvento" class="form-control" required>
+                    </div>
+                    <!-- Campo: Número de Invitados -->
+                    <div class="mb-3">
+                        <label for="invitados" class="form-label required">Número de Invitados</label>
+                        <select id="invitados" class="form-select" required>
+                            <option value="" disabled selected>Selecciona...</option>
+                            <option>10</option>
+                            <option>20</option>
+                            <option>50</option>
+                            <option>100</option>
+                            <option>200</option>
+                            <option>Otro</option>
+                        </select>
+                    </div>
+                    <!-- Campo: Dirección o Lugar -->
+                    <div class="mb-3">
+                        <label for="lugarEvento" class="form-label required">Dirección o Lugar</label>
+                        <input type="text" id="lugarEvento" class="form-control" placeholder="Ej. Salón Los Álamos, CDMX" required>
+                    </div>
+                    <!-- Campo: Contacto -->
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="emailContacto" class="form-label required">Email de Contacto</label>
+                            <input type="email" id="emailContacto" class="form-control" placeholder="tucorreo@ejemplo.com" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="telContacto" class="form-label">Teléfono de Contacto</label>
+                            <input type="tel" id="telContacto" class="form-control" placeholder="(55) 1234-5678">
+                        </div>
+                    </div>
+                    <!-- Campo: Presupuesto -->
+                    <div class="mb-3">
+                        <label for="presupuesto" class="form-label">Presupuesto Aproximado (MXN)</label>
+                        <input type="number" id="presupuesto" class="form-control" placeholder="Ej. 15000" min="0">
+                    </div>
+                    <!-- Campo: Descripción o Notas -->
+                    <div class="mb-3">
+                        <label for="descripcion" class="form-label">Descripción o Notas</label>
+                        <textarea id="descripcion" class="form-control" rows="3" placeholder="Detalles adicionales..."></textarea>
+                    </div>
+                    <!-- Campo: Color o Tema -->
+                    <div class="mb-3">
+                        <label for="colorTema" class="form-label">Color o Tema</label>
+                        <input type="color" id="colorTema" class="form-control form-control-color" value="#e91e63" title="Elige un color">
+                    </div>
+                    <!-- Campo: Menú Sugerido -->
+                    <div class="mb-3">
+                        <label for="menu" class="form-label">Menú Sugerido</label>
+                        <select id="menu" class="form-select" disabled>
+                            <option>Selecciona hora primero</option>
+                        </select>
+                    </div>
+                    <!-- Campo: Banner del Evento -->
+                    <div class="mb-4">
+                        <label for="bannerEvento" class="form-label">Banner del Evento</label>
+                        <input class="form-control" type="file" id="bannerEvento" accept="image/*">
+                    </div>
+                    <!-- Botón de envío -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary px-5">
+                            <i class="bi bi-check-circle"></i> Guardar Evento
+                        </button>
+                    </div>
+                </form>
             </div>
-          </div>
+        </div>
 
-          <!-- Presupuesto -->
-          <div class="mb-3">
-            <label for="presupuesto" class="form-label">Presupuesto Aproximado (MXN)</label>
-            <input
-              type="number"
-              id="presupuesto"
-              class="form-control"
-              placeholder="Ej. 15000"
-              min="0"
-            >
-          </div>
+        <!-- PANEL DRAG & DROP -->
+        <div>
+            <div class="card p-4 mb-4">
+                <h4 class="mb-3 text-center">Componentes</h4>
+                <div class="components">
+                    <img src="mesa.png" id="mesa" class="component" draggable="true" title="Mesa">
+                    <img src="pista.png" id="pista" class="component" draggable="true" title="Pista de baile">
+                    <img src="musicos.png" id="musicos" class="component" draggable="true" title="Músicos">
+                    <img src="comida.png" id="comida" class="component" draggable="true" title="Comida">
+                </div>
+                <h4 class="mb-3 text-center">Distribución</h4>
+                <div id="layoutArea"></div>
+            </div>
+        </div>
 
-          <!-- Notas -->
-          <div class="mb-3">
-            <label for="descripcion" class="form-label">Descripción o Notas</label>
-            <textarea
-              id="descripcion"
-              class="form-control"
-              rows="3"
-              placeholder="Detalles adicionales del evento..."
-            ></textarea>
-          </div>
+    </main>
 
-          <!-- Tema / Color -->
-          <div class="mb-3">
-            <label for="colorTema" class="form-label">Color o Tema</label>
-            <input
-              type="color"
-              id="colorTema"
-              class="form-control form-control-color"
-              value="#e91e63"
-              title="Elige un color"
-            >
-          </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        © 2025 Salón de Eventos. Todos los derechos reservados.
+    </footer>
 
-          <!-- Menú -->
-          <div class="mb-3">
-            <label for="menu" class="form-label">Menú Sugerido</label>
-            <select id="menu" class="form-select" disabled>
-              <option>Selecciona hora primero</option>
-            </select>
-          </div>
+    <!-- JS Externos -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-          <!-- Banner -->
-          <div class="mb-4">
-            <label for="bannerEvento" class="form-label">Banner del Evento</label>
-            <input
-              class="form-control"
-              type="file"
-              id="bannerEvento"
-              accept="image/*"
-            >
-          </div>
+    <!-- Lógica JS -->
+    <script>
+        // Inicializar Flatpickr
+        flatpickr("#fechaEvento", {
+            dateFormat: "Y-m-d",
+            minDate: new Date().fp_incr(3), // Hoy + 3 días
+            disable: ["2025-06-20","2025-06-25","2025-07-02"],
+            onChange: function(selected, dateStr) {
+                if (["2025-06-20","2025-06-25","2025-07-02"].includes(dateStr)) {
+                    alert("La fecha " + dateStr + " está ocupada.");
+                    this.clear();
+                }
+            }
+        });
 
-          <!-- Botón -->
-          <div class="text-center">
-            <button type="submit" class="btn btn-primary px-5">
-              <i class="bi bi-check-circle"></i> Guardar Evento
-            </button>
-          </div>
+        // Menú dinámico según hora
+        document.getElementById("horaEvento").addEventListener("change", function() {
+            const hr = parseInt(this.value.split(":")[0]);
+            const menu = document.getElementById("menu");
+            menu.disabled = false;
+            menu.innerHTML = "";
+            if (hr >= 6 && hr < 11) {
+                menu.innerHTML = `<option>Desayuno Mexicano</option><option>Hot Cakes</option><option>Chilaquiles</option>`;
+            } else if (hr >= 11 && hr < 16) {
+                menu.innerHTML = `<option>Pollo en Mole</option><option>Fajitas</option><option>Pescado Empanizado</option>`;
+            } else if (hr >= 16 && hr <= 22) {
+                menu.innerHTML = `<option>Ensalada César</option><option>Carne Asada</option><option>Pizza Artesanal</option>`;
+            } else {
+                menu.innerHTML = `<option>Menú no disponible</option>`;
+            }
+        });
 
-        </form>
-      </div>
-    </div>
+        // Drag & Drop Lógica
+        let dragged = null;
+        document.querySelectorAll('.component').forEach(el => {
+            el.addEventListener('dragstart', e => {
+                dragged = e.target;
+            });
+        });
+        const area = document.getElementById('layoutArea');
+        area.addEventListener('dragover', e => e.preventDefault());
+        area.addEventListener('drop', e => {
+            e.preventDefault();
+            const clone = dragged.cloneNode(true);
+            clone.classList.add('dropped');
+            const rect = area.getBoundingClientRect();
+            const x = e.clientX - rect.left - clone.width/2;
+            const y = e.clientY - rect.top - clone.height/2;
+            clone.style.left = x + 'px';
+            clone.style.top = y + 'px';
+            clone.setAttribute('draggable', 'true');
+            clone.addEventListener('dragstart', ev => { dragged = ev.target; });
+            area.appendChild(clone);
+        });
 
-    <!-- COLUMNA SECUNDARIA: aquí podrías poner un sidebar o info extra -->
-    <aside class="sidebar">
-       <h3 class="text-center mb-3">Componentes</h3>
-      <div class="components">
-        <img src="mesa.png" id="mesa" class="component" draggable="true" title="Mesa">
-        <img src="pista.png" id="pista" class="component" draggable="true" title="Pista de baile">
-        <img src="musicos.png" id="musicos" class="component" draggable="true" title="Músicos">
-        <img src="comida.png" id="comida" class="component" draggable="true" title="Comida">
-      </div>
-      <h3 class="text-center mb-3">Distribución</h3>
-      <div id="layoutArea"></div>
-    </aside>
-  </main>
-
-  <!-- ===== FOOTER ===== -->
-  <footer class="footer">
-    © 2025 Salón de Eventos. Todos los derechos reservados.
-  </footer>
-
-  <!-- SCRIPTS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-  <script>
-    const bookedDates = ["2025-06-20","2025-06-25","2025-07-02"];
-    flatpickr("#fechaEvento", {
-      dateFormat: "Y-m-d",
-      minDate: new Date().fp_incr(3),
-      disable: bookedDates,
-      onChange: (d,s) => {
-        if(bookedDates.includes(s)){
-          alert("❌ La fecha "+s+" ya está ocupada.");
-          this.clear();
-        }
-      }
-    });
-     // DRAG & DROP
-    let draggedId = null;
-
-    document.querySelectorAll('.component').forEach(el => {
-      el.addEventListener('dragstart', e => {
-        draggedId = e.target.id;
-      });
-    });
-
-    const layout = document.getElementById('layoutArea');
-    layout.addEventListener('dragover', e => e.preventDefault());
-    layout.addEventListener('drop', e => {
-      e.preventDefault();
-      const orig = document.getElementById(draggedId);
-      const clone = orig.cloneNode(true);
-      clone.classList.add('dropped');
-      // posición relativa al contenedor
-      const rect = layout.getBoundingClientRect();
-      const x = e.clientX - rect.left - (clone.width/2);
-      const y = e.clientY - rect.top - (clone.height/2);
-      clone.style.left = x + 'px';
-      clone.style.top = y + 'px';
-      // permitir reubicación
-      clone.addEventListener('dragstart', ev => {
-        draggedId = null;
-        ev.dataTransfer.setDragImage(ev.target, 0, 0);
-        moving = ev.target;
-      });
-      layout.appendChild(clone);
-    });
-    document.getElementById("horaEvento")
-      .addEventListener("change", function() {
-        const hr = +this.value.split(":")[0];
-        const menu = document.getElementById("menu");
-        menu.disabled = false; menu.innerHTML = "";
-        if (hr<11) {
-          menu.innerHTML = `<option>Desayuno Mexicano</option><option>Hot Cakes</option><option>Chilaquiles</option>`;
-        } else if (hr<16) {
-          menu.innerHTML = `<option>Pollo en Mole</option><option>Fajitas</option><option>Pescado Empanizado</option>`;
-        } else {
-          menu.innerHTML = `<option>Ensalada César</option><option>Carne Asada</option><option>Pizza Artesanal</option>`;
-        }
-      });
-    document.getElementById("formEvento")
-      .addEventListener("submit", e => {
-        if (!e.target.checkValidity()) {
-          e.preventDefault(); alert("Completa los campos requeridos");
-        }
-      });
-  </script>
+        // Validación formulario
+        document.getElementById("formEvento").addEventListener("submit", function(e) {
+            if (!this.checkValidity()) {
+                e.preventDefault();
+                alert("Por favor completa todos los campos requeridos.");
+            }
+        });
+    </script>
 </body>
 </html>
-
-
-
-
-
