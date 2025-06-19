@@ -180,7 +180,7 @@ body {
 }
 
 /* Servicios Destacados */
-.alternative-therapies {
+.servicios-destacados {
     background-color: var(--white);
     padding: 2rem;
     margin-bottom: 2rem;
@@ -188,7 +188,7 @@ body {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-.alternative-therapies h2 {
+servicios-destacados h2 {
     font-size: 2rem;
     color: var(--primary-color);
     margin-bottom: 2rem;
@@ -197,7 +197,7 @@ body {
     padding-bottom: 10px;
 }
 
-.alternative-therapies h2::after {
+servicios-destacados h2::after {
     content: '';
     position: absolute;
     bottom: 0;
@@ -208,13 +208,13 @@ body {
     background-color: var(--accent-color);
 }
 
-.therapy-grid {
+.servicio-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 2rem;
 }
 
-.therapy-item {
+.servicio-item {
     text-align: center;
     padding: 1.5rem;
     background-color: var(--light-bg);
@@ -223,13 +223,13 @@ body {
     transform: perspective(500px) rotateX(0deg);
 }
 
-.therapy-item:hover {
+.servicio-item:hover {
     transform: perspective(500px) rotateX(10deg);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
     background-color: var(--white);
 }
 
-.therapy-item img {
+.servicio-item img {
     max-width: 100%;
     height: 200px;
     object-fit: cover;
@@ -239,18 +239,18 @@ body {
     animation: flotar 3s ease-in-out infinite;
 }
 
-.therapy-item:hover img {
+.servicio-item:hover img {
     border-radius: 10px;
     transform: rotate(5deg) scale(1.05);
 }
 
-.therapy-item h3 {
+.servicio-item h3 {
     font-size: 1.3rem;
     color: var(--secondary-color);
     margin-bottom: 0.8rem;
 }
 
-.therapy-item p {
+.servicio-item p {
     color: var(--text-color);
     margin-bottom: 1rem;
 }
@@ -271,14 +271,14 @@ body {
 }
 
 /* Menú Destacado */
-.featured-therapies {
+.featured-menu {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
     margin: 3rem 0;
 }
 
-.featured-therapies h2 {
+.featured-menu h2 {
     grid-column: 1 / -1;
     font-size: 2rem;
     color: var(--primary-color);
@@ -286,7 +286,7 @@ body {
     margin-bottom: 1rem;
 }
 
-.therapy-box {
+.servicio-box {
     background-color: var(--white);
     padding: 1.5rem;
     border-radius: 10px;
@@ -296,12 +296,12 @@ body {
     transform: translateY(0);
 }
 
-.therapy-box:hover {
+.servicio-box:hover {
     transform: translateY(-10px) scale(1.02);
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
-.therapy-box img {
+.servicio-box img {
     max-width: 80%;
     height: 150px;
     object-fit: cover;
@@ -311,12 +311,12 @@ body {
     animation: flotar 3s ease-in-out infinite;
 }
 
-.therapy-box:hover img {
+.servicio-box:hover img {
     transform: scale(1.1) rotate(5deg);
     border-radius: 10px;
 }
 
-.therapy-box h3 {
+.servicio-box h3 {
     font-size: 1.2rem;
     color: var(--secondary-color);
     margin-bottom: 0.5rem;
@@ -364,7 +364,7 @@ body {
     background-color: var(--secondary-color);
 }
 
-.therapy-categories h3, .contact-info h3 {
+.servicio-categories h3, .contact-info h3 {
     font-size: 1.3rem;
     color: var(--primary-color);
     margin-bottom: 1rem;
@@ -372,11 +372,11 @@ body {
     border-bottom: 2px solid var(--light-bg);
 }
 
-.therapy-categories ul {
+.servicio-categories ul {
     list-style: none;
 }
 
-.therapy-categories ul li a {
+.servicio-categories ul li a {
     color: var(--text-color);
     text-decoration: none;
     display: block;
@@ -385,7 +385,7 @@ body {
     transition: all 0.3s ease;
 }
 
-.therapy-categories ul li a:hover {
+.servicio-categories ul li a:hover {
     color: var(--primary-color);
     padding-left: 10px;
     background-color: rgba(233, 30, 99, 0.1);
@@ -603,7 +603,7 @@ body {
         text-align: center;
     }
     
-    .therapy-grid, .featured-therapies {
+    .therapy-grid, .featured-menu {
         grid-template-columns: 1fr;
     }
     
@@ -639,4 +639,112 @@ body {
     .read-more-button, .contact-button {
         width: 100%;
     }
+}
+
+/* Horarios de Comida */
+.horarios {
+    background-color: var(--white);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    animation: fadeInUp 1s ease;
+}
+
+.horarios h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.horarios ul {
+    list-style: none;
+    padding-left: 0;
+    text-align: center;
+}
+
+.horarios ul li {
+    font-size: 1.2rem;
+    padding: 0.5rem 0;
+    color: var(--text-color);
+}
+
+.menu-horario h2,
+.menu-infantil h2 {
+    font-size: 1.8rem;
+    color: var(--secondary-color);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* Estilos específicos para el menú */
+.main-menu-container {
+    padding: 2rem 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.menu-section {
+    margin-bottom: 3rem;
+    background-color: var(--white);
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.menu-title {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 10px;
+}
+
+.menu-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: var(--accent-color);
+}
+
+.menu-items-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+}
+
+.menu-item {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: var(--light-bg);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.menu-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.menu-item img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 1rem;
+}
+
+.menu-item h3 {
+    color: var(--secondary-color);
+    margin-bottom: 0.5rem;
+}
+
+.menu-item p {
+    color: var(--text-color);
 }
